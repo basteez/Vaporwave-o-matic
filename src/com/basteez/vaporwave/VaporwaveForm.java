@@ -17,7 +17,7 @@ public class VaporwaveForm extends JFrame{
     private JLabel statueLbl;
     private JButton vaporwaveBtn;
     private JPanel panel1;
-    private boolean isPlaying;
+    private boolean isPlaying = false;
 
     public VaporwaveForm(){
         initComponents();
@@ -35,7 +35,10 @@ public class VaporwaveForm extends JFrame{
         getContentPane().setBackground(new Color(255,105,180));
 
         //set image for statueLbl
-        File labelImg = new File("assets/bustmac.gif");
+        //File labelImg = new File("assets/bustmac.gif");
+        URL url = getClass().getClassLoader().getResource("com/basteez/vaporwave/assets/bustmac.gif");
+        File labelImg = new File(url.getPath());
+        //System.out.println(url.getPath());
         ImageIcon statueIcon = new ImageIcon(labelImg.getPath());
         Image img = statueIcon.getImage();
         Image scaledImg = img.getScaledInstance(statueIcon.getIconWidth()/2, statueIcon.getIconHeight()/2, Image.SCALE_SMOOTH);
@@ -48,7 +51,10 @@ public class VaporwaveForm extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if(!isPlaying){
                     isPlaying = true;
-                    File macplus = new File("assets/macplus.mp3");
+                    //File macplus = new File("assets/macplus.mp3");
+                    URL url = getClass().getClassLoader().getResource("com/basteez/vaporwave/assets/macplus.mp3");
+                    System.out.println(url.getPath());
+                    File macplus = new File(url.getPath());
                     try {
                         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(macplus));
                         Player player = new Player(bis);
