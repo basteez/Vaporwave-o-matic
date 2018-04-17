@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Vaporwave_jar</output-path>
     <root id="archive" name="Vaporwave.jar">
       <element id="module-output" name="Vaporwave" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/jl1.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ext/jl1.0.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

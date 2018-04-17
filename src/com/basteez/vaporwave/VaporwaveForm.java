@@ -7,10 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.net.URL;
 
 public class VaporwaveForm extends JFrame{
@@ -35,11 +32,7 @@ public class VaporwaveForm extends JFrame{
         getContentPane().setBackground(new Color(255,105,180));
 
         //set image for statueLbl
-        //File labelImg = new File("assets/bustmac.gif");
-        URL url = getClass().getClassLoader().getResource("com/basteez/vaporwave/assets/bustmac.gif");
-        File labelImg = new File(url.getPath());
-        //System.out.println(url.getPath());
-        ImageIcon statueIcon = new ImageIcon(labelImg.getPath());
+        ImageIcon statueIcon = new ImageIcon(getClass().getClassLoader().getResource("assets/bustmac.gif"));
         Image img = statueIcon.getImage();
         Image scaledImg = img.getScaledInstance(statueIcon.getIconWidth()/2, statueIcon.getIconHeight()/2, Image.SCALE_SMOOTH);
         statueLbl.setIcon(new ImageIcon(scaledImg));
@@ -51,19 +44,28 @@ public class VaporwaveForm extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if(!isPlaying){
                     isPlaying = true;
-                    //File macplus = new File("assets/macplus.mp3");
-                    URL url = getClass().getClassLoader().getResource("com/basteez/vaporwave/assets/macplus.mp3");
-                    System.out.println(url.getPath());
-                    File macplus = new File(url.getPath());
-                    try {
-                        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(macplus));
-                        Player player = new Player(bis);
-                        player.play();
-                    } catch (FileNotFoundException exc) {
-                        exc.printStackTrace();
-                    } catch (JavaLayerException exc) {
-                        exc.printStackTrace();
-                    }
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //File macplus = new File("assets/macplus.mp3");
+                            InputStream is = getClass().getClassLoader().getResourceAsStream("assets/macplus.mp3");
+                            //File macplus = new File(is);
+                            try {
+                                BufferedInputStream bis = new BufferedInputStream(is);
+                                Player player = new Player(bis);
+                                player.play();
+                                isPlaying = false;
+                            } catch (JavaLayerException exc) {
+                                exc.printStackTrace();
+                            }
+                        }
+                    });
+                    t.start();
+                    /*try {
+                        t.wait();
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }*/
                 }
             }
         });
